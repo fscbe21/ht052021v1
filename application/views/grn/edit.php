@@ -1,0 +1,543 @@
+
+<div id="page-content" class="p20 clearfix">
+    <div class="p-1">
+    <?php
+        if($success){
+    ?>
+      <div id="success-alert" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+       <strong>Success!</strong>&nbsp;Grn updated successfully.
+      </div>
+
+      <?php
+        }
+        ?>
+
+        <div class="">
+            <div class="panel panel-default">
+                <div class="page-title clearfix">
+                    <h4> Edit Grn</h4>
+                    <div class="title-button-group">
+                    <a href="<?php echo_uri("grn") ?>">
+                            <button class="btn btn-md btn-default">GRN List</button>
+                    </a>
+                    </div>
+                </div>
+                <br />
+                <?php echo form_open(get_uri("grn/updategrn"), array("id" => "grn-form", "class" => "general-form", "role" => "form")); ?>
+                <div class="container-1 row">
+                <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">GRN Date</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                     <input type="date" name="grn_date" class="form-control" value="<?php echo $grn_data->grn_date;  ?>">
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                   <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">GRN No</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                     <input readonly type="text" class="form-control" value="<?= $grn_data->id; ?>">
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                    <div class="col-md-5">
+                    
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">Warehouse *</label>
+                            <input type="hidden" name="grn_id" value="<?= $grn_data->id; ?>"/>
+                            <input type="hidden" name="warehouse_id_old" value="<?= $grn_data->warehouse_id; ?>"/>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                  <select name="warehouse_id" class="form-control" required>   
+                                    <option value="">Select Warehouse</option> 
+                                    <?php
+                                        $warehouse = $grn_data->warehouse_id;
+                                    ?>
+                                        <?php foreach($warehouse_all as $wh){?>
+                                            <option <?php echo ($warehouse == $wh->id) ? ' selected' : ''; 
+                                    ?> value="<?php echo $wh->id; ?>"><?php echo $wh->name; ?> </option>
+                        <?php }  ?>                                                    
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">Supplier *</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-7">
+                                  <select name="supplier_id" class="form-control new" required>   
+                                    <option value="">Select Supplier</option> 
+                                        <?php foreach($supplier_all as $sp){?>
+                                            <?php
+                                        $supplier = $grn_data->supplier_id;
+                                    ?>
+                                            <option 
+                                            
+                                            <?php
+                                            echo ($supplier == $sp->id) ? ' selected' : ''; 
+                                            ?>
+                                            
+                                            value="<?php echo $sp->id; ?>"><?php echo $sp->name.' ( '.$sp->company_name.' )'; ?> </option>
+                                            <?php }  
+                                            ?>                                                    
+                                </select>
+                                </div>
+                                <div class="col-md-2">
+                                <?php echo modal_anchor(get_uri("supplier/modal_form"), "<i class='fa fa-plus-circle'></i> " . '', array("class" => "btn btn-default ", "title" => 'Add Supplier')); ?>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <br />
+                <div class="container-1 row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">Grn Status *</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                  <select name="status" class="form-control" required> 
+                                  <?php
+                                        $grn_status = $grn_data->status;
+                                  ?>  
+                                    <option value="" >Select Grn Status</option>  
+                                    <?php foreach($grn_status_all as $psa){?>
+                                            <option 
+                                            
+                                            <?php
+                                        echo ($grn_status == $psa->id) ? ' selected' : '';
+                                            ?>
+                                            
+                                            value="<?php echo $psa->id; ?>"><?php echo $psa->title; ?> </option>
+                                            <?php }  
+                                            ?>                       
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!--darini 10-4-->
+                <div class="col-md-5" >
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3"> Request Order</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                <!--  <input type="number" name="purchase_requstion_number" class="form-control"  required>-->
+                                <select class="form-control" disabled="true">   
+                                    <option value="">None</option> 
+                                      
+                                            <option value="1"  <?php if( $grn_data->request_order == 1){ ?> selected <?php  } ?> >Purchase Requisition Number</option>
+                                            <option value="2"  <?php if( $grn_data->request_order == 2){ ?> selected <?php  } ?> >Purchase Order Number</option>
+                                            <option value="3"  <?php if( $grn_data->request_order == 
+                                            3){ ?> selected <?php  } ?> >Direct</option><!-- R.V14_04Modified-->
+                                                                                     
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                   <input type="hidden"  name="request_order" value="<?php echo $grn_data->request_order ?>"/>
+                   <input type="hidden" name="request_number" value="<?php echo $grn_data->request_number ?>"/>
+                   
+                    <div class="col-md-5" id="o_number" <?php if($grn_data->request_order==null || $grn_data->request_order==0 || $grn_data->request_order==3) {?> style="display:none" <?php }?> ><!-- R.V14_04Modified-->
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3" id="title_number"><?php if( $grn_data->request_order == 1){ echo "Purchase Requstion Number";}else if($grn_data->request_order == 2){ echo "Purchase Order Number";}?></label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                <!--  <input type="number" name="purchase_requstion_number" class="form-control"  required>-->
+                                <select  id="request_number" class="form-control" disabled="true">   
+                                    
+                                            <?php if( $grn_data->request_order == 1){?>
+                                                    <option value="">None</option> 
+                                                    <?php foreach($request as $tx){?>
+                                                        <option value="<?php echo $tx->id; ?>" <?php if( $grn_data->request_number == $tx->id){ ?> selected <?php  } ?>  ><?php echo $tx->prno; ?> </option>
+                                                      <?php } 
+
+                                            }else if( $grn_data->request_order == 2){ ?> 
+                                                    <option value="">None</option> 
+                                                    <?php foreach($order as $tx){?>
+                                                        <option value="<?php echo $tx->id; ?>" <?php if( $grn_data->request_number == $tx->id){ ?> selected <?php  } ?> ><?php echo $tx->po_no; ?> </option>
+                                                      <?php } }
+                                                  ?>
+                                                  
+                                                      
+                                                      
+                                                      
+                                                      
+                                                      
+                                                      
+                                    
+
+                                        
+                                                                                     
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+                <!--end-->
+                 <!--darini 23-3-->
+                 <div class="col-md-5" style="display:none"><!--darini 10-4-->
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3"> Purchase Id</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                <select name="purchase_id" class="form-control" disabled="true">   
+                                    <option value="" >None</option>  
+                                    <?php foreach($purchase as $psa){?>
+                                            <option value="<?php echo $psa->id; ?>"  <?php if( $grn_data->purchase_id == $psa->id){ ?> selected <?php  } ?>   ><?php echo $psa->id; ?> </option>
+                                            <?php }  
+                                            ?>                       
+                                  </select> 
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">DC Number</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                     <input type="text" name="dc_number" class="form-control" value="<?php echo $grn_data->dc_number; ?>">
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+
+                   <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">Date</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                     <input type="date" name="dc_date" class="form-control" value="<?php echo $grn_data->dc_date; ?>">
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+
+                   <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="title" class=" col-md-3">Receiver Name</label>
+                            <div class="<?php echo $field_column; ?>">
+                                <div class=" col-md-9">
+                                     <input type="text" name="receiver_name" class="form-control" value="<?php echo $grn_data->receiver_name; ?>">
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+<!--end-->
+
+
+                </div>
+                <br />
+                <div class="pl-2 container-2">
+                    <b>
+                    <p>Select product *</p>
+                    </b>
+                    
+                    <div class="form-group">
+                        <input type="text" id="search" name="search" class="form-control" style="width: 80%; height: 50px" placeholder="Search product with product code or name"/>
+                        <div id="product-list"></div>
+                    </div>
+                <b><p>Order Table *</p></b>
+                <div class="table-responsive mt-3">
+                    <table id="myTable" class="table table-hover table-striped order-list" style="width: 80%; font-weight: 600">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th align="right">Quantity</th>
+                                <th align="left">Unit</th>
+                                <th>Unit Cost</th>
+                                <th>Discount</th>
+                                <th>Tax</th>
+                                <th>Subtotal</th>
+                                <th><i class="fa fa-trash-o"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-table">
+                        <?php
+                           $options = array();
+                           $options['grn_id'] = $grn_data->id;
+                            $grn_detail = $this->Productgrn_model->get_details($options)->result();
+                            foreach($grn_detail as $pdata){
+    $product_data = $this->Products_model->get_one($pdata->product_id);
+    $product_name = $product_data->name;
+    $product_code = $product_data->code;
+    $product_cost = $product_data->cost;
+
+    $unit_data    = $this->Unit_model->get_one($product_data->unit_id);//changes 23-3
+    $unit_name    = $unit_data->name;
+                        ?>
+                        <tr>
+                        <td><?= $product_name; ?></td>
+                        <td class="<?= $product_code; ?>"><?= $product_code; ?></td>
+                        <td><input style="width: 100px; background-color: white; border: 1px solid #2c3e50" class="form-control qtychange" type="number" name="qty[]" value="<?= $pdata->qty; ?>"/></td>
+                        <td><?= $unit_name; ?></td>
+                        <td class="cost"><?= $pdata->net_unit_cost; ?></td>
+                        <td><?= $pdata->discount; ?></td>
+                        <td class="tax"><?= $pdata->tax; ?></td>
+                        <td class="subtotal"><?= $pdata->total; ?></td>
+                        <td style="color: red"><i class="fa fa-trash-o deletethis" aria-hidden="true"></i>
+                        <input type="hidden" name="code[]" value="<?= $product_code; ?>"/>
+                        <input type="hidden" name="id[]" value="<?= $pdata->product_id; ?>"/>
+                        <input type="hidden" name="product_cost[]" value="<?= $pdata->net_unit_cost; ?>"/>
+                        <input type="hidden" class="tax-rate" name="tax_rate[]" value="<?php echo $pdata->tax_rate ?>"/>
+                         <input type="hidden" class="tax-value" name="tax[]" value="<?php echo $pdata->tax ?>"/>
+                        </td>
+                        </tr>
+
+                        <?php
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+              <br />
+              <div class="container-2 p-2">
+                   <div class="row" style="width: 80%">
+                        <div class="col-md-4">
+                            <p>Order Tax</p>
+                            <select name="order_tax" class="form-control">   
+                                    <option value="">Select Order Tax</option> 
+                                        <?php foreach($tax_all as $tx){?>
+                                            <option value="<?php echo $tx->id; ?>" <?php if($grn_data->order_tax== $tx->id){?> selected <?php } ?>><?php echo $tx->title; ?> </option>
+                        <?php }  ?>                                                    
+                                </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>Discount</p>
+                            <input type="number" name="total_discount" class="form-control" value="<?= $grn_data->order_discount; ?>"/>
+                        </div>
+
+                        <div class="col-md-4">
+                            <p>Shipping Cost</p>
+                            <input type="number" name="shipping_cost" class="form-control" value="<?= $grn_data->shipping_cost; ?>"/>
+                        </div>
+                    
+
+                   </div>
+                   <br />
+                   <div class="row" >
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Attach Document</label> <i class="dripicons-question" data-toggle="tooltip" title="Only jpg, jpeg, png, gif, pdf, csv, docx, xlsx and txt file is supported"></i>
+                                          <!--changes 24-3-->
+                                          <input type="hidden" name="old_file" value="<?php echo $grn_data->document; ?>"/>
+                                           <div id="post-dropzone" class="post-dropzone box-content  form-control">
+                                                <?php $this->load->view("includes/dropzone_preview"); ?>
+                                             <button onclick="document.getElementById('label_doc').style.display='none';" class="btn btn-default upload-file-button pull-left btn-sm round" type="button" style="color:#7988a2"><i class='fa fa-camera'></i> Upload </button>
+                                            <label id="label_doc"><?php if($grn_data->document){echo $grn_data->document;}else{ echo "No file choosen";}?></label>
+            
+                                        </div>
+                                        <!--end-->
+                                           
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                   <br />
+                   <br />
+                   <label>Note:</label>
+
+                        <textarea class="form-control" style="width: 80%" name="note" rows="3" cols="50">
+                        <?= $grn_data->note; ?>
+                        </textarea>
+
+              </div><br /><br />
+              <div class="container-2 p-2">
+                 <input type="submit" value="Submit" name="submit" class="btn btn-md btn-primary"/> 
+             </div><br />
+             <br />
+              <?php echo form_close(); ?>                          
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).on('keyup', '#search', function(){
+        var searchContent = $(this).val();
+        if(searchContent.length != 0){
+            $.ajax({
+            type: 'GET',
+            url: '../search/'+searchContent,//changes 23-3
+            dataType: 'json',
+            success: function(data) 
+            {
+                $('#product-list').empty();
+                if(data.length > 0)
+                {
+                    $.each(data, function (index, value) 
+                    {
+                        var namex = data[index].name;
+                        var namep = namex.replace(/"/g, '');
+                        $('#product-list').append('<option data-name="'+namep+'" data-code='+data[index].code+' data-id="'+data[index].id+'" data-cost='+data[index].cost+' data-unit='+data[index].unit_id+' data-tax='+data[index].tax_id+' value="'+data[index].code+'" class="form-control selected" style="width: 80%">'+data[index].name+' ( '+data[index].code+' )</option>');
+                    }); 
+                }
+                else
+                {
+                    $('#product-list').append('<option class="form-control" style="width: 80%">No Product Found</option>');
+                }
+                                     
+            }                   
+        });
+        }
+        else
+        {
+            $('#product-list').empty();
+        }
+        
+    });
+
+    $(document).on('click', '.selected', function(){
+        var name = $(this).data('name');
+        var code = $(this).data('code');
+        var id   = $(this).data('id');
+        var indexv = $('#order-table').find('.'+code).index();
+        var taxp   = $(this).data('tax');
+        var taxrate=0;
+        var taxall=<?php echo json_encode($tax_all)?>;
+        console.log("tax"+taxall);
+        taxall.forEach(function(value,index) {
+            if(value.id==taxp){
+                console.log("val"+value.percentage);
+                taxrate =value.percentage;
+            }
+        });
+        if(indexv == 1){
+            var closestTr = $('#order-table').find('.'+code).closest("tr").index();
+            var qtychange = $('#order-table tr:eq(' + closestTr + ')').find('.qtychange').val();
+            qtychange = parseFloat(qtychange);
+            qtychange += 1;
+
+            $('#order-table tr:eq(' + closestTr + ')').find('.qtychange').val(qtychange);
+            var cost = $('#order-table tr:eq(' + closestTr + ')').find('.cost').text();
+            cost = parseFloat(cost);
+
+            var tax = ((parseFloat(cost * qtychange)*taxrate)/100).toFixed(2);
+            console.log("tax"+(parseFloat(cost * qtychange)*taxrate)/100);
+            $('#order-table tr:eq(' + closestTr + ')').find('.tax').text(tax);
+            $('#order-table tr:eq(' + closestTr + ')').find('.tax-value').val(tax);
+           
+            var subTotal = parseFloat(cost * qtychange)+parseFloat(tax);    
+            subtotal = subTotal.toFixed(2);
+            $('#order-table tr:eq(' + closestTr + ')').find('.subtotal').text(subtotal);
+        }
+        else
+        {
+            var cost = $(this).data('cost');
+            var unit = $(this).data('unit');
+            var discount = 0;
+            var tax = ((cost*taxrate)/100 ).toFixed(2);
+            var subtotal = parseFloat(cost)+parseFloat(tax);
+            var qty = 1;
+            var orderlist = '<tr>';
+            orderlist += '<td>'+name+'</td>';
+            orderlist += '<td class="'+code+'">'+code+'</td>';
+            orderlist += '<td><input style="width: 100px; background-color: white; border: 1px solid #2c3e50" class="form-control qtychange" type="number" name="qty[]" value="1"/></td>';
+            orderlist += '<td class="unit-name">'+unit+'</td>';//changes 23-3
+            orderlist += '<td class="cost">'+cost+'</td>';
+            orderlist += '<td>'+discount+'</td>';
+            orderlist += '<td class="tax">'+tax+'</td>';
+            orderlist += '<td class="subtotal">'+subtotal.toFixed(2)+'</td>';
+            orderlist += '<td style="color: red"><i class="fa fa-trash-o deletethis" aria-hidden="true"></i>';
+            orderlist += '<input type="hidden" name="code[]" value="'+code+'"/>';
+            orderlist += '<input type="hidden" name="id[]" value="'+id+'"/>';
+            orderlist += '<input type="hidden" name="product_cost[]" value="'+cost+'"/>';
+            orderlist += '<input type="hidden" class="tax-rate" name="tax_rate[]" value="'+taxrate+'"/>';
+            orderlist += '<input type="hidden" class="tax-value" name="tax[]" value="'+tax+'"/>';
+            orderlist += '</td>'
+            orderlist += '</tr>';
+
+            $('#order-table').append(orderlist);
+            getUnitName(unit);
+        }
+        
+        $('#product-list').empty();
+        $('#search').val('');
+    });
+
+    $(document).on('input', '.qtychange', function(){
+        var row_index = $(this).closest("tr").index();
+        var cost = $('#order-table tr:eq(' + row_index + ')').find('.cost').text();
+        cost = parseFloat(cost);
+        var qty  = $('#order-table tr:eq(' + row_index + ')').find('.qtychange').val();
+        qty = parseFloat(qty);
+        var taxrate=$('#order-table tr:eq(' + row_index + ')').find('.tax-rate').val();
+        var tax = ((parseFloat(cost * qty)*taxrate)/100).toFixed(2) ;
+       // console.log("tax"+(parseFloat(cost * qty)*taxrate)/100);
+        $('#order-table tr:eq(' + row_index + ')').find('.tax').text(tax);
+        $('#order-table tr:eq(' + row_index + ')').find('.tax-value').val(tax);
+        var subTotal = parseFloat(cost * qty)+parseFloat(tax);  
+        subtotal = subTotal.toFixed(2);
+
+        $('#order-table tr:eq(' + row_index + ')').find('.subtotal').text(subtotal);
+    });
+
+    $(document).on('click', '.deletethis', function(){
+        console.log('clicked');
+        $(this).parents('tr').first().remove();
+    });
+
+    $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+        $("#success-alert").slideUp(500);
+        window.setTimeout(function() {
+            window.location.href = '../grn';
+        }, 400);
+    });
+
+    function getUnitName(unit){
+        return $.ajax({
+            type: 'GET',
+            url: '<?php echo echo_uri('/bomcreation/get_unit_name/'); ?>'+unit,//changes 22-3
+            dataType: 'json',
+            success: function(data) 
+            {
+                $('#myTable tr:last').find('.unit-name').text(data.name);                  
+            }                   
+        });
+    }
+
+    //changes 24-3
+var uploadUrl = "<?php echo get_uri("sales/upload_file"); ?>";
+var validationUrl = "<?php echo get_uri("sales/validate_post_file"); ?>";
+var dropzone = attachDropzoneWithForm("#post-dropzone", uploadUrl, validationUrl);
+
+$(document).on('click', '#fs-supplier-btn', function(){
+    $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '<?php echo base_url(); ?>index.php/grn/get_all_suppliers',
+            success: function(data) 
+            {
+               $.each(data, function (index, value) 
+                {
+                    var indexid = parseInt(data.id) + 1;
+                    var supplierName = $('#supplier_name').val();
+                    var companyName  = $('#company_name').val();
+                    
+                    $('.new').prepend('<option value="'+indexid+'" class="form-control" style="width: 80%">'+supplierName+' ( '+companyName+' )</option>');
+
+                });
+            }
+    });
+});
+
+</script>

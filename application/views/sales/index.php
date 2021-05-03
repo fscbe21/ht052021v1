@@ -1,0 +1,48 @@
+<div id="page-content" class="m20 clearfix">
+  
+
+    <div class="panel">
+        
+            <div class="tab-title clearfix">
+                <h4><?php echo lang("sales_list"); ?></h4>
+                <div class="title-button-group">
+                    <?php
+                   
+                        echo anchor(get_uri("sales/add_sales"), "<i class='fa fa-plus-circle'></i> " . "Add Sales", array("class" => "btn btn-default", "title" => "Add Account"));
+                    
+                    ?>
+                </div>
+            </div>
+        
+
+        <div class="table-responsive" id="new_work_list">
+            <table id="salary-table"  class="display" width="100%">            
+            </table>
+        </div>
+    </div>
+    
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#salary-table").appTable({                       
+            source: '<?php echo_uri("sales/list_data/") ?>',                      
+            columns: [
+                {title: '<?php echo "Date" ?>'},
+                {title: '<?php echo "Reference" ?>'},
+                {title: '<?php echo "Biller" ?>'},
+                {title: '<?php echo "Customer" ?>'},
+                {title: '<?php echo "Sales Status" ?>' ,"class": " text-center"},
+                {title: '<?php echo "Payment Status" ?>',"class": " text-center"},
+                {title: '<?php echo "Grand Total" ?>'},
+                {title: '<?php echo "Paid" ?>'},
+                {title: '<?php echo "Due" ?>'},
+                {title: '<i class="fa fa-bars"></i>', "class": " text-center dropdown-option"}
+               
+            ],
+            printColumns: combineCustomFieldsColumns([0, 1, 3, 5, 7, 9] ),
+            xlsColumns: combineCustomFieldsColumns([0, 1, 3, 5, 7, 9])
+        });
+    });
+ 
+        </script>
