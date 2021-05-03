@@ -86,7 +86,7 @@ class Holidays extends MY_Controller {
         $id = $this->input->post('id');
         if ($this->input->post('undo')) {
             if ($this->Holidays_model->delete($id, true)) {
-                echo json_encode(array("success" => true, "data" => $this->_row_data($id), "message" => lang('record_undone')));
+                echo json_encode(array("success" => true, /* "data" => $this->_row_data($id), */ "message" => lang('record_undone')));
             } else {
                 echo json_encode(array("success" => false, lang('error_occurred')));
             }
