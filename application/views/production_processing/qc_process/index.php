@@ -160,9 +160,7 @@
             id="qc-wastage">Wastage</button> -->
 
 
-            <input  type="submit" id="qc-wastage" value="Wastage" name="wastage_submit" class="btn btn-md btn-danger" style="display: none;"   ><br />
-
-            <input  type="submit" id="partial-delivery" value="Partial Delivery" name="partial_delivery" class="btn btn-md btn-default" style="display: none;">
+            <input  type="submit" id="qc-wastage" value="Wastage" name="wastage_submit" class="btn btn-md btn-danger" style="display: none;"   >
 
             
             <input  type="submit" id="qc-pass" value="QcPass" name="qc_pass_submit" class="btn btn-md btn-success" >
@@ -213,14 +211,12 @@ console.log('clicked');
             document.getElementById("qc-pass").style.display = "block";
             document.getElementById("qc-id").style.display = "none";
             document.getElementById("qc-wastage").style.display = "none";
-            document.getElementById("partial-delivery").style.display = "none";
 
         }else{
         
         document.getElementById("qc-id").style.display = "block";
         document.getElementById("qc-wastage").style.display = "block";
         document.getElementById("qc-pass").style.display = "none";
-        document.getElementById("partial-delivery").style.display = "block";
        
 
       }

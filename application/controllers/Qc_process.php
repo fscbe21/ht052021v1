@@ -173,15 +173,7 @@ $this->Productwarehouse_model->updatewhdata(7,$val,$product_total_qty_array_inpu
            
             $this->Set_process_model->update_status($this->input->post('work_order_id'),$process_product_id,2);
     
-            }
-
-            if($this->input->post('partial-delivery')){
-                
-            }
-
-
-            
-            
+            } 
 
             $options                  = array();
             $options['work_order_id'] = $this->input->post('work_order_id');
